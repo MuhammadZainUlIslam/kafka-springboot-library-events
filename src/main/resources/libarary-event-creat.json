@@ -1,0 +1,9 @@
+{
+  "libraryEventId": null,
+  "libraryEventTye": "NEW",
+  "book": {
+    "bookId": 123,
+    "bookName":  "Kafka Using Spring Boot",
+    "bookAuthor":"Muhammad"
+  }
+}
