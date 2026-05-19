@@ -15,7 +15,7 @@ public class TestUtil {
 
     public static Book bookRecordWithInvalidValues(){
 
-        return new Book(null, "Sabato","Kafka Using Spring Boot" );
+        return new Book(null, "","Kafka Using Spring Boot" );
     }
 
     public static LibraryEvent libraryEventRecord(){
