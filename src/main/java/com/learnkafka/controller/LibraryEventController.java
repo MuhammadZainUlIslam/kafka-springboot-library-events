@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -51,6 +48,29 @@ public class LibraryEventController {
     log.info("-- After Sending Library Event --");
     return ResponseEntity.status(HttpStatus.CREATED).body(libraryEvent);
     }
+
+    @PutMapping("/libraryevent")
+    public ResponseEntity<?> updateLibraryEvent(@Valid  @RequestBody LibraryEvent libraryEvent) throws ExecutionException, InterruptedException, TimeoutException, JsonProcessingException {
+        log.info("Library Event :{}",libraryEvent);
+
+        ResponseEntity<String> BAD_REQUEST = validateLibraryEvent(libraryEvent);
+        if(BAD_REQUEST != null)
+            return BAD_REQUEST;
+        libraryEventProducer.sendLibraryEvent_approach3(libraryEvent);
+        return ResponseEntity.status(HttpStatus.OK).body(libraryEvent);
+    }
+
+    private static ResponseEntity<String> validateLibraryEvent(@Valid LibraryEvent libraryEvent) throws JsonProcessingException {
+        if(libraryEvent.libraryEventId()== null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please Pass Library Event");
+        }
+        if(!libraryEvent.libraryEventType().equals(libraryEvent.libraryEventType())){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please Pass Library Event Id");
+        }
+        return null;
+    }
+
+
 
 
 }
